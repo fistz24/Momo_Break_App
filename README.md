@@ -2,7 +2,7 @@
 
 **Soft reminders to pause.**
 
-Momo is a little peach mascot that watches for real active computer time, then peeks in from the corner with a gentle break prompt. She never blocks your screen — just a friendly nudge to drink water, stretch, or tick off a few small care tasks.
+Momo is a little peach mascot that watches for real active computer time, then peeks in from the corner with a gentle break prompt. She never blocks your screen. She's just a friendly nudge to drink water, stretch, or tick off a few small care tasks. 
 
 ![Momo](mascots/momo-default.png)
 
@@ -29,9 +29,10 @@ Open the site, leave the tab open while you work, and use **Preview pop-up** to 
 | Checklist items | Built-in tasks + your own |
 | Mascots | Upload images to rotate with Momo |
 
-## Chrome extension
+## Chrome extension (Best choice)
 
-A separate package runs as a browser extension with system-level idle detection and overlays on normal web pages. Load the unpacked extension folder in `chrome://extensions` (Developer mode).
+A separate package runs as a browser extension with system-level idle detection and overlays on normal web pages. Load the unpacked extension folder in `chrome://extensions` (Developer mode). 
+With extension, no matter which browser window/tab you're in, the pop up window can appear.
 
 ## Stack
 
@@ -40,7 +41,8 @@ Static HTML, CSS, and JavaScript. No backend. Preferences and stats live in the 
 ## Deploy
 
 Works on any static host (Vercel, Netlify, GitHub Pages). Point the host at this folder — `index.html` is the entry.
+However, when you deploy using these tools, pop-up window can only appear in that particular tab only. 
 
 ## License
 
-Personal / demo use. Momo character assets included for this project.
+Made by Fonda Irena Santoso. This repo can only be used personal / demo reasons and not for commercial purposes. Momo character assets included for this project.
