@@ -2,7 +2,7 @@
 
 **Soft reminders to pause.**
 
-Momo means peach in Japanese and the character Momo was used because I loves peaches and instead of using only fruit picture, I added some furs to the fruit (the real fruit also has some smooth, thin furs hehe) to make it feel alive.
+Momo means peach in Japanese and the character Momo was used because I love peaches and instead of using only fruit picture, I added some furs to the fruit (the real fruit also has some smooth, thin furs hehe) to make it feel alive.
 
 Momo is a little peach mascot that watches for real active computer time, then peeks in from the corner with a gentle break prompt. She never blocks your screen. She's just a friendly nudge to drink water, stretch, or tick off a few small care tasks. 
 
