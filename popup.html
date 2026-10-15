@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Momo Break</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --ink: #4a2f2a;
+        --muted: #8a6a64;
+        --cream: #fff6ef;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        width: 280px;
+        font-family: Nunito, system-ui, sans-serif;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at 20% 10%, #ffe8dc 0%, transparent 40%),
+          #f7ebe3;
+        padding: 16px;
+      }
+      h1 {
+        font-size: 1.05rem;
+        margin: 0 0 4px;
+        font-weight: 800;
+      }
+      .sub {
+        color: var(--muted);
+        font-size: 0.8rem;
+        margin: 0 0 12px;
+        font-weight: 600;
+      }
+      .status {
+        background: #fff;
+        border-radius: 12px;
+        padding: 10px 12px;
+        font-size: 0.78rem;
+        font-weight: 700;
+        margin-bottom: 12px;
+        line-height: 1.4;
+      }
+      button {
+        font-family: inherit;
+        cursor: pointer;
+        border: 0;
+        border-radius: 999px;
+        font-weight: 800;
+        font-size: 0.82rem;
+        padding: 10px 14px;
+        width: 100%;
+      }
+      .primary {
+        background: var(--ink);
+        color: #fff8f4;
+        margin-bottom: 8px;
+      }
+      .ghost {
+        background: var(--cream);
+        color: var(--ink);
+        margin-bottom: 8px;
+      }
+      a {
+        display: block;
+        text-align: center;
+        color: var(--muted);
+        font-size: 0.75rem;
+        font-weight: 700;
+        margin-top: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Momo Break</h1>
+    <p class="sub">Soft reminders to pause.</p>
+    <p class="status" id="status">Loading…</p>
+    <button type="button" class="primary" id="preview">Preview pop-up</button>
+    <button type="button" class="ghost" id="options">Open settings</button>
+    <script src="popup.js"></script>
+  </body>
+</html>

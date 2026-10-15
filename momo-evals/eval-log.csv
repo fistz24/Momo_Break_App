@@ -1,0 +1,13 @@
+id,test,my prediction (before testing),result (Pass/Fail/Warn),what actually happened,decision (fix code / fix spec / won't fix),date
+M01,Fullscreen video,,,,,
+M02,Screen share (Meet/Zoom),,,,,
+M03,Typing in a doc,,,,,
+M04,No normal web tab open,,,,,
+M05,Chrome behind another app,,,,,
+M06,Full break flow,,,,,
+M07,Skips and daily stop,,,,,
+M08,Custom task with HTML characters,,,,,
+M09,Mascot uploads (1 / 9 / 6 MB),,,,,
+M10,Several windows and tabs,,,,,
+M11,Busy sites (Gmail / Notion / YouTube),,,,,
+M12,Browser restart,,,,,

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Momo Button Test</title>
+  <style>
+    body { font-family: system-ui; background: #f0f0f0; padding: 20px; }
+    #log { white-space: pre-wrap; background: #111; color: #0f0; padding: 12px; border-radius: 8px; max-height: 240px; overflow: auto; font-size: 12px; }
+    h1 { font-size: 18px; }
+  </style>
+</head>
+<body>
+  <h1>Momo Break — UI button test</h1>
+  <p>This page mocks the extension APIs and runs the real content script UI.</p>
+  <div id="log"></div>
+  <script>
+    // Mock Chrome extension APIs
+    window.chrome = {
+      runtime: {
+        getURL: (p) => p,
+        sendMessage: (msg, cb) => {
+          window.__lastMsg = msg;
+          log('sendMessage: ' + JSON.stringify(msg));
+          if (cb) cb({ ok: true, stats: { completed: 2 } });
+          return Promise.resolve({ ok: true });
+        },
+        onMessage: {
+          addListener: (fn) => { window.__msgListener = fn; }
+        }
+      }
+    };
+
+    function log(s) {
+      const el = document.getElementById('log');
+      el.textContent += s + '\n';
+      el.scrollTop = el.scrollHeight;
+      console.log(s);
+    }
+
+    window.__testResults = [];
+  </script>
+  <script src="content.js"></script>
+  <script>
+    // Trigger show
+    setTimeout(() => {
+      if (window.__msgListener) {
+        window.__msgListener(
+          { type: 'MOMO_SHOW', preview: true, settings: { uploads: [], customTasks: [] } },
+          null,
+          (r) => log('shown: ' + JSON.stringify(r))
+        );
+      } else {
+        log('ERROR: no message listener');
+      }
+
+      setTimeout(runTests, 400);
+    }, 200);
+
+    function qs(sel) {
+      const host = document.getElementById('momo-break-host');
+      if (!host || !host.shadowRoot) return null;
+      return host.shadowRoot.querySelector(sel);
+    }
+
+    function click(el) {
+      if (!el) throw new Error('element missing');
+      el.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, composed: true }));
+    }
+
+    function runTests() {
+      const results = [];
+      try {
+        const host = document.getElementById('momo-break-host');
+        if (!host) throw new Error('host missing');
+        if (host.getAttribute('data-hidden') === 'true') throw new Error('still hidden');
+
+        const start = qs('#momo-start');
+        const snooze = qs('#momo-snooze');
+        const skip = qs('#momo-skip');
+        const momo = qs('#momo-img');
+        const actions = qs('#momo-actions');
+        const tasks = qs('#momo-tasks');
+        const bubble = qs('#momo-bubble');
+
+        if (!start || !snooze || !skip) throw new Error('buttons missing');
+        results.push('PASS: buttons exist');
+
+        // Test Start
+        click(start);
+        setTimeout(() => {
+          try {
+            if (actions && actions.hidden) results.push('PASS: Start hides actions');
+            else results.push('FAIL: Start did not hide actions');
+            if (tasks && !tasks.hidden) results.push('PASS: Start shows tasks');
+            else results.push('FAIL: Start did not show tasks');
+            if (window.__lastMsg && window.__lastMsg.type === 'MOMO_STARTED')
+              results.push('PASS: MOMO_STARTED sent');
+            else results.push('FAIL: MOMO_STARTED not sent');
+
+            // Test mascot poke
+            const beforeBubble = bubble ? bubble.textContent : '';
+            const beforeSrc = momo ? momo.src : '';
+            click(momo);
+            setTimeout(() => {
+              try {
+                if (bubble && bubble.textContent) results.push('PASS: mascot poke updates bubble (' + bubble.textContent + ')');
+                else results.push('FAIL: bubble empty after poke');
+                if (momo) results.push('PASS: mascot still present after poke');
+
+                // Re-show and test Skip
+                window.__msgListener(
+                  { type: 'MOMO_SHOW', preview: true, settings: {} },
+                  null,
+                  () => {}
+                );
+                setTimeout(() => {
+                  try {
+                    click(qs('#momo-skip'));
+                    setTimeout(() => {
+                      try {
+                        const h = document.getElementById('momo-break-host');
+                        if (h.getAttribute('data-hidden') === 'true' || h.style.display === 'none')
+                          results.push('PASS: Skip hides popup');
+                        else results.push('FAIL: Skip did not hide');
+                        if (window.__lastMsg && window.__lastMsg.type === 'MOMO_SKIP')
+                          results.push('PASS: MOMO_SKIP sent');
+                        else results.push('FAIL: MOMO_SKIP not sent');
+
+                        // Snooze
+                        window.__msgListener(
+                          { type: 'MOMO_SHOW', preview: true, settings: {} },
+                          null,
+                          () => {}
+                        );
+                        setTimeout(() => {
+                          try {
+                            click(qs('#momo-snooze'));
+                            setTimeout(() => {
+                              const h2 = document.getElementById('momo-break-host');
+                              if (h2.getAttribute('data-hidden') === 'true' || h2.style.display === 'none')
+                                results.push('PASS: Snooze hides popup');
+                              else results.push('FAIL: Snooze did not hide');
+                              if (window.__lastMsg && window.__lastMsg.type === 'MOMO_SNOOZE')
+                                results.push('PASS: MOMO_SNOOZE sent');
+                              else results.push('FAIL: MOMO_SNOOZE not sent');
+
+                              window.__testResults = results;
+                              log('\\n=== RESULTS ===\\n' + results.join('\\n'));
+                            }, 150);
+                          } catch (e) {
+                            results.push('FAIL snooze: ' + e.message);
+                            window.__testResults = results;
+                            log(results.join('\\n'));
+                          }
+                        }, 200);
+                      } catch (e) {
+                        results.push('FAIL skip: ' + e.message);
+                        window.__testResults = results;
+                        log(results.join('\\n'));
+                      }
+                    }, 150);
+                  } catch (e) {
+                    results.push('FAIL: ' + e.message);
+                    window.__testResults = results;
+                    log(results.join('\\n'));
+                  }
+                }, 200);
+              } catch (e) {
+                results.push('FAIL poke: ' + e.message);
+                window.__testResults = results;
+                log(results.join('\\n'));
+              }
+            }, 150);
+          } catch (e) {
+            results.push('FAIL start: ' + e.message);
+            window.__testResults = results;
+            log(results.join('\\n'));
+          }
+        }, 200);
+      } catch (e) {
+        results.push('FAIL setup: ' + e.message);
+        window.__testResults = results;
+        log(results.join('\\n'));
+      }
+    }
+  </script>
+</body>
+</html>

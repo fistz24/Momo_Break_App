@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Momo Break</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="break.css" />
+  </head>
+  <body>
+    <div id="root">
+      <div class="particles" id="particles" aria-hidden="true"></div>
+      <div class="float">
+        <p class="bubble" id="bubble">Hey, I'm Momo!</p>
+        <img id="momo" class="momo" src="mascots/momo-default.png" alt="" />
+      </div>
+      <section class="popup">
+        <button type="button" class="close" id="close" aria-label="Close">×</button>
+        <p class="timer" id="timer">10:00</p>
+        <h2 id="title">Let's get you feeling better in 10 minutes!</h2>
+        <div id="actions" class="actions">
+          <button type="button" class="primary" id="start">Start my 10 minutes</button>
+          <button type="button" class="ghost" id="snooze">Snooze</button>
+          <button type="button" class="ghost" id="skip">Skip</button>
+        </div>
+        <div id="tasks" class="task-list" hidden></div>
+        <ul class="done-list" id="done" hidden></ul>
+        <p class="sendoff" id="sendoff" hidden>Come back when your brain feels loud again.</p>
+        <button type="button" class="primary" id="back" hidden>Back to it</button>
+        <div class="dots" id="dots" aria-hidden="true"></div>
+        <p class="streak" id="streak" hidden></p>
+      </section>
+    </div>
+    <script src="break.js"></script>
+  </body>
+</html>
